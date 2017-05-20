@@ -121,6 +121,7 @@ RUN chown -R $USER:$USER $HOME/.ssh
 
 COPY main.sh $HOME/
 RUN chown $USER:$USER $HOME/main.sh
+RUN chmod 755 $HOME/main.sh
 
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
