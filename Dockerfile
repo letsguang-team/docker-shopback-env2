@@ -39,7 +39,6 @@ RUN apt-get install -y libapr1-dev
 RUN apt-get install -y libaprutil1-dev
 RUN apt-get install -y openssh-client
 RUN apt-get install -y openssh-server
-RUN apt-get install -y nodejs
 RUN apt-get install -y libmysqlclient-dev
 RUN apt-get install -y libyaml-dev
 RUN apt-get install -y supervisor
