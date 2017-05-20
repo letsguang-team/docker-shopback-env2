@@ -79,6 +79,7 @@ RUN export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.s
 RUN echo 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' | tee -a $HOME/.profile $HOME/.bash_profile
 
 RUN /bin/bash -l -c 'nvm install $NODE_VERSION'
+RUN /bin/bash -l -c 'npm install bower -g'
 
 # config apache + passenger + virtual host ----------------------------------------------------- >>
 
