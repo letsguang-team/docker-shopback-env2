@@ -4,6 +4,8 @@ ENV DEEP_REFRESHED_AT 2017-05-20
 ENV RUBY_VERSION 2.3.1
 ENV RAILS_VERSION 5.0.1
 ENV PASSENGER_VERSION 5.0.30
+ENV NVM_VERSION v0.33.2
+ENV NODE_VERSION 7.6
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
@@ -32,7 +34,6 @@ RUN apt-get install -y git-core
 RUN apt-get install -y gawk sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libgmp-dev libreadline6-dev
 RUN apt-get install -y apache2
 RUN apt-get install -y apache2-mpm-worker
-RUN apt-get install -y nodejs --no-install-recommends
 RUN apt-get install -y libcurl4-openssl-dev
 RUN apt-get install -y apache2-threaded-dev
 RUN apt-get install -y libapr1-dev
@@ -70,6 +71,14 @@ RUN /bin/bash -l -c 'gem install rails --version=$RAILS_VERSION --no-doc --no-ri
 RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-rdoc --no-ri'
 
 RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
+
+# Install NVM + Node
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+
+RUN export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+RUN echo 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' | tee -a $HOME/.profile $HOME/.bash_profile
+
+RUN /bin/bash -l -c 'nvm install $NODE_VERSION'
 
 # config apache + passenger + virtual host ----------------------------------------------------- >>
 
