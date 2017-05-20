@@ -110,6 +110,9 @@ RUN a2enmod ssl
 USER root
 WORKDIR $HOME
 
+RUN mkdir /var/run/sshd
+RUN chmod 0755 /var/run/sshd
+
 RUN mkdir $HOME/.ssh
 ADD ssh/* $HOME/.ssh/
 RUN chmod 755 $HOME/.ssh
