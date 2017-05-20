@@ -45,7 +45,6 @@ RUN apt-get install -y libyaml-dev
 RUN apt-get install -y supervisor
 RUN apt-get install -y imagemagick
 RUN apt-get install -y mysql-client
-RUN apt-get install -y vim
 
 # Setup User
 RUN useradd --home $HOME -M $USER -K UID_MIN=10000 -K GID_MIN=10000 -s /bin/bash
