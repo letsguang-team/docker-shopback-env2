@@ -1,8 +1,6 @@
 FROM ubuntu:trusty
 MAINTAINER Martin Chan <osiutino@gmail.com>
-
-USER root
-
+ENV DEEP_REFRESHED_AT 2017-05-20
 ENV RUBY_VERSION 2.3.1
 ENV RAILS_VERSION 5.0.1
 ENV PASSENGER_VERSION 5.0.30
@@ -12,6 +10,12 @@ ENV LANGUAGE en_US.UTF-8
 ENV TZ Asia/Hong_Kong
 ENV USER worker
 ENV HOME /home/$USER
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+
+USER root
 
 # Setup environment
 RUN locale-gen $LC_ALL
@@ -20,6 +24,8 @@ RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
 # Update
 RUN apt-get update
 RUN apt-get upgrade -y
+
+# Install dependencies
 RUN apt-get install -y curl
 RUN apt-get install -y build-essential
 RUN apt-get install -y git-core
@@ -45,8 +51,6 @@ RUN apt-get install -y vim
 RUN useradd --home $HOME -M $USER -K UID_MIN=10000 -K GID_MIN=10000 -s /bin/bash
 RUN mkdir $HOME
 RUN chown $USER:$USER $HOME
-#RUN adduser $USER sudo
-#RUN echo '$USER ALL=(ALL) NOPASSWD:ALL' >> /etc/sudoers
 
 USER $USER
 
@@ -62,12 +66,11 @@ RUN /bin/bash -l -c 'rvm install $RUBY_VERSION'
 RUN /bin/bash -l -c 'rvm use $RUBY_VERSION --default'
 RUN /bin/bash -l -c 'rvm rubygems current'
 
-# Install bundler
+# Install Gems
 RUN /bin/bash -l -c 'gem install bundler --no-doc --no-ri'
-
 RUN /bin/bash -l -c 'gem install rails --version=$RAILS_VERSION --no-doc --no-ri'
-
 RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-rdoc --no-ri'
+
 RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
 
 # config apache + passenger + virtual host ----------------------------------------------------- >>
@@ -88,11 +91,6 @@ ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 RUN mkdir -p /var/www/app/current/public
 RUN echo OK > /var/www/app/current/public/index.html
 RUN chown $USER:$USER -R /var/www/
-
-ENV APACHE_LOG_DIR /var/log/apache2
-ENV APACHE_PID_FILE /var/run/apache2.pid
-ENV APACHE_RUN_DIR /var/run/apache2
-ENV APACHE_LOCK_DIR /var/lock/apache2
 
 RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
@@ -133,4 +131,4 @@ CMD ["/usr/bin/supervisord"]
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2017-05-19
+ENV REFRESHED_AT 2017-05-20
