@@ -74,7 +74,10 @@ RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
 
 USER root
 
+RUN echo ServerName ${HOSTNAME} >> /etc/apache2/apache2.conf
+
 RUN echo "LoadModule passenger_module $HOME/.rvm/gems/ruby-$RUBY_VERSION/gems/passenger-$PASSENGER_VERSION/buildout/apache2/mod_passenger.so" > /etc/apache2/mods-available/passenger.load
+
 RUN echo "<IfModule mod_passenger.c>\n \
  PassengerRoot $HOME/.rvm/gems/ruby-$RUBY_VERSION/gems/passenger-$PASSENGER_VERSION\n \
  PassengerDefaultRuby $HOME/.rvm/gems/ruby-$RUBY_VERSION/wrappers/ruby\n \
@@ -85,6 +88,13 @@ ADD 000-default.conf /etc/apache2/sites-enabled/000-default.conf
 RUN mkdir -p /var/www/app/current/public
 RUN echo OK > /var/www/app/current/public/index.html
 RUN chown $USER:$USER -R /var/www/
+
+ENV APACHE_LOG_DIR /var/log/apache2
+ENV APACHE_PID_FILE /var/run/apache2.pid
+ENV APACHE_RUN_DIR /var/run/apache2
+ENV APACHE_LOCK_DIR /var/lock/apache2
+
+RUN mkdir -p $APACHE_RUN_DIR $APACHE_LOCK_DIR $APACHE_LOG_DIR
 
 RUN a2enmod passenger
 RUN a2enmod headers
