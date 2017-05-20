@@ -1,4 +1,4 @@
-FROM ubuntu:trusty
+FROM ubuntu:xenial
 MAINTAINER Martin Chan <osiutino@gmail.com>
 ENV DEEP_REFRESHED_AT 2017-05-20
 ENV RUBY_VERSION 2.3.1
@@ -17,24 +17,21 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 
 USER root
 
-# Setup environment
-RUN locale-gen $LC_ALL
-RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
-
 # Update
 RUN apt-get update
 RUN apt-get upgrade -y
 
 # Install dependencies
+RUN apt-get install -y locales
+RUN apt-get install -y tzdata
 RUN apt-get install -y curl
 RUN apt-get install -y build-essential
 RUN apt-get install -y git-core
-RUN apt-get install -y gawk sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libgmp-dev libreadline6-dev
+RUN apt-get install -y gawk sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libgmp-dev libreadline6-dev  libssl-dev libsqlite3-dev pkg-config
 RUN apt-get install -y apache2
-RUN apt-get install -y apache2-mpm-worker
 RUN apt-get install -y nodejs --no-install-recommends
 RUN apt-get install -y libcurl4-openssl-dev
-RUN apt-get install -y apache2-threaded-dev
+RUN apt-get install -y apache2-dev
 RUN apt-get install -y libapr1-dev
 RUN apt-get install -y libaprutil1-dev
 RUN apt-get install -y openssh-client
@@ -44,6 +41,10 @@ RUN apt-get install -y libyaml-dev
 RUN apt-get install -y supervisor
 RUN apt-get install -y imagemagick
 RUN apt-get install -y mysql-client
+
+# Setup environment
+RUN locale-gen $LC_ALL
+RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
 
 # Setup User
 RUN useradd --home $HOME -M $USER -K UID_MIN=10000 -K GID_MIN=10000 -s /bin/bash
