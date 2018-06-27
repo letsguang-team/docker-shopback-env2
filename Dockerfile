@@ -41,6 +41,7 @@ RUN apt-get install -y libyaml-dev
 RUN apt-get install -y supervisor
 RUN apt-get install -y imagemagick
 RUN apt-get install -y mysql-client
+RUN apt-get install -y cron
 
 # Setup environment
 RUN locale-gen $LC_ALL
