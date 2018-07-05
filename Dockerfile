@@ -1,6 +1,6 @@
 FROM ubuntu:trusty
 MAINTAINER Martin Chan <osiutino@gmail.com>
-ENV DEEP_REFRESHED_AT 2017-05-20
+ENV DEEP_REFRESHED_AT 2018-07-05
 ENV RUBY_VERSION 2.3.1
 ENV RAILS_VERSION 5.0.1
 ENV PASSENGER_VERSION 5.0.30
@@ -139,4 +139,4 @@ CMD ["/usr/bin/supervisord"]
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2017-05-20
+ENV REFRESHED_AT 2018-07-05
