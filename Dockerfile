@@ -2,7 +2,6 @@ FROM ubuntu:trusty
 MAINTAINER Martin Chan <osiutino@gmail.com>
 ENV DEEP_REFRESHED_AT 2018-07-05
 ENV RUBY_VERSION 2.3.1
-ENV RAILS_VERSION 5.0.1
 ENV PASSENGER_VERSION 5.0.30
 ENV NVM_VERSION v0.33.2
 ENV NODE_VERSION 7.6
@@ -67,7 +66,6 @@ RUN /bin/bash -l -c 'rvm rubygems current'
 
 # Install Gems
 RUN /bin/bash -l -c 'gem install bundler --no-doc --no-ri'
-RUN /bin/bash -l -c 'gem install rails --version=$RAILS_VERSION --no-doc --no-ri'
 RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-rdoc --no-ri'
 
 RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
