@@ -2,7 +2,6 @@ FROM ubuntu:xenial
 MAINTAINER Martin Chan <osiutino@gmail.com>
 ENV DEEP_REFRESHED_AT 2018-06-27
 ENV RUBY_VERSION 2.3.7
-ENV RAILS_VERSION 5.0.1
 ENV PASSENGER_VERSION 5.3.3
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
@@ -68,7 +67,6 @@ RUN /bin/bash -l -c 'rvm rubygems current'
 
 # Install Gems
 RUN /bin/bash -l -c 'gem install bundler --no-doc --no-ri'
-RUN /bin/bash -l -c 'gem install rails --version=$RAILS_VERSION --no-doc --no-ri'
 RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-rdoc --no-ri'
 
 RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
