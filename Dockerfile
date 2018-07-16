@@ -1,10 +1,10 @@
 FROM ubuntu:trusty
 MAINTAINER Martin Chan <osiutino@gmail.com>
-ENV DEEP_REFRESHED_AT 2018-07-05
-ENV RUBY_VERSION 2.3.1
-ENV PASSENGER_VERSION 5.0.30
-ENV NVM_VERSION v0.33.2
-ENV NODE_VERSION 7.6
+ENV DEEP_REFRESHED_AT 2018-07-16
+ENV RUBY_VERSION 2.3.7
+ENV PASSENGER_VERSION 5.3.3
+ENV NVM_VERSION v0.33.3
+ENV NODE_VERSION 8.11
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
@@ -53,7 +53,7 @@ RUN chown $USER:$USER $HOME
 USER $USER
 
 # Install RVM
-RUN gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+RUN gpg --keyserver keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
 RUN \curl -sSL https://get.rvm.io | bash -s stable
 RUN /bin/bash -l -c 'source ~/.rvm/scripts/rvm'
 
@@ -137,4 +137,4 @@ CMD ["/usr/bin/supervisord"]
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2018-07-05
+ENV REFRESHED_AT 2018-07-16
