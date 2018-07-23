@@ -19,7 +19,11 @@ ENV APACHE_LOCK_DIR /var/lock/apache2
 USER root
 
 # Setup environment
-RUN locale-gen $LC_ALL
+RUN echo "LC_ALL=$LC_ALL" >> /etc/environment
+RUN echo "$LC_ALL UTF-8" >> /etc/locale.gen
+RUN echo "LANG=$LC_ALL" > /etc/locale.conf
+RUN locale-gen en_US.UTF-8
+RUN dpkg-reconfigure -f noninteractive locales
 RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
 
 # Update
@@ -137,4 +141,4 @@ CMD ["/usr/bin/supervisord"]
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2018-07-16
+ENV REFRESHED_AT 2018-07-23
