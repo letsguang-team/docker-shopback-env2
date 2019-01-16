@@ -3,6 +3,8 @@ MAINTAINER Martin Chan <osiutino@gmail.com>
 ENV DEEP_REFRESHED_AT 2018-06-27
 ENV RUBY_VERSION 2.3.7
 ENV PASSENGER_VERSION 5.3.3
+ENV NVM_VERSION v0.34.0
+ENV NODE_VERSION 8.15
 ENV LC_ALL en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
@@ -28,7 +30,6 @@ RUN apt-get install -y build-essential
 RUN apt-get install -y git-core
 RUN apt-get install -y gawk sqlite3 autoconf libgmp-dev libgdbm-dev libncurses5-dev automake libtool bison libffi-dev libgmp-dev libreadline6-dev  libssl-dev libsqlite3-dev pkg-config
 RUN apt-get install -y apache2
-RUN apt-get install -y nodejs --no-install-recommends
 RUN apt-get install -y libcurl4-openssl-dev
 RUN apt-get install -y apache2-dev
 RUN apt-get install -y libapr1-dev
@@ -74,6 +75,15 @@ RUN /bin/bash -l -c 'gem install bundler --no-doc --no-ri'
 RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-rdoc --no-ri'
 
 RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
+
+# Install NVM + Node
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+
+RUN export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"
+RUN echo 'export NVM_DIR="$HOME/.nvm" && [ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"' | tee -a $HOME/.profile $HOME/.bash_profile
+
+RUN /bin/bash -l -c 'nvm install $NODE_VERSION'
+RUN /bin/bash -l -c 'npm install bower -g'
 
 # config apache + passenger + virtual host ----------------------------------------------------- >>
 
