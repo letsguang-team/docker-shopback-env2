@@ -1,6 +1,6 @@
 FROM ubuntu:xenial
 MAINTAINER Martin Chan <osiutino@gmail.com>
-ENV DEEP_REFRESHED_AT 2018-06-27
+ENV DEEP_REFRESHED_AT 2019-01-17
 ENV RUBY_VERSION 2.3.7
 ENV PASSENGER_VERSION 5.3.3
 ENV NVM_VERSION v0.34.0
@@ -143,4 +143,4 @@ CMD ["/usr/bin/supervisord"]
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2018-06-27
+ENV REFRESHED_AT 2019-01-17
