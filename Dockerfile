@@ -43,7 +43,11 @@ RUN apt-get install -y mysql-client
 RUN apt-get install -y cron
 
 # Setup environment
-RUN locale-gen $LC_ALL
+RUN echo "LC_ALL=$LC_ALL" >> /etc/environment
+RUN echo "$LC_ALL UTF-8" >> /etc/locale.gen
+RUN echo "LANG=$LC_ALL" > /etc/locale.conf
+RUN locale-gen en_US.UTF-8
+RUN dpkg-reconfigure -f noninteractive locales
 RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
 
 # Setup User
