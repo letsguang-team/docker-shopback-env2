@@ -1,5 +1,5 @@
 FROM ubuntu:xenial
-MAINTAINER Martin Chan <osiutino@gmail.com>
+LABEL maintainer="Martin Chan <osiutino@gmail.com>"
 ENV DEEP_REFRESHED_AT 2019-01-17
 ENV RUBY_VERSION 2.3.7
 ENV PASSENGER_VERSION 5.3.3
