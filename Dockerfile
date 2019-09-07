@@ -77,8 +77,8 @@ RUN /bin/bash -l -c 'rvm use $RUBY_VERSION --default'
 RUN /bin/bash -l -c 'rvm rubygems current'
 
 # Install Gems
-RUN /bin/bash -l -c 'gem install bundler --no-doc --no-ri'
-RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-rdoc --no-ri'
+RUN /bin/bash -l -c 'gem install bundler --no-document'
+RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-document'
 
 RUN /bin/bash -l -c 'passenger-install-apache2-module --auto'
 
