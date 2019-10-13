@@ -49,7 +49,7 @@ RUN echo "$LC_ALL UTF-8" >> /etc/locale.gen
 RUN echo "LANG=$LC_ALL" > /etc/locale.conf
 RUN locale-gen en_US.UTF-8
 RUN dpkg-reconfigure -f noninteractive locales
-RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
+RUN echo "$TZ" | tee /etc/timezone; rm -rf /etc/localtime; ln -s /usr/share/zoneinfo/$TZ /etc/localtime; dpkg-reconfigure -f noninteractive tzdata
 
 # Setup User
 RUN useradd --home $HOME -M $USER -K UID_MIN=10000 -K GID_MIN=10000 -s /bin/bash
