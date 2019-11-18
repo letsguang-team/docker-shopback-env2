@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 LABEL maintainer="Martin Chan <osiutino@gmail.com>"
-ENV DEEP_REFRESHED_AT 2019-09-08
-ENV RUBY_VERSION 2.3.7
+ENV DEEP_REFRESHED_AT 2019-11-19
+ENV RUBY_VERSION 2.4.6
 ENV PASSENGER_VERSION 6.0.2
 ENV NVM_VERSION v0.34.0
 ENV NODE_VERSION 10.16
@@ -149,4 +149,4 @@ CMD ["/usr/bin/supervisord"]
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2019-10-14
+ENV REFRESHED_AT 2019-11-19
