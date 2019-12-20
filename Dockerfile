@@ -142,11 +142,12 @@ RUN chmod 755 $HOME/main.sh
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-CMD ["/usr/bin/supervisord"]
+# Details: https://github.com/docker/docker/issues/2569#issuecomment-27973910
+CMD ["/bin/bash", "-c", "env | grep _ >> /etc/environment && supervisord -n"]
 
 # -------------------------------------------------------------------------------------------------
 
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2019-11-19
+ENV REFRESHED_AT 2019-12-21
