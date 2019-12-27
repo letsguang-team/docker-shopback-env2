@@ -1,7 +1,7 @@
 FROM ubuntu:xenial
 LABEL maintainer="Martin Chan <osiutino@gmail.com>"
-ENV DEEP_REFRESHED_AT 2019-09-08
-ENV RUBY_VERSION 2.3.7
+ENV DEEP_REFRESHED_AT 2019-11-19
+ENV RUBY_VERSION 2.4.6
 ENV PASSENGER_VERSION 6.0.2
 ENV NVM_VERSION v0.34.0
 ENV NODE_VERSION 10.16
@@ -49,7 +49,7 @@ RUN echo "$LC_ALL UTF-8" >> /etc/locale.gen
 RUN echo "LANG=$LC_ALL" > /etc/locale.conf
 RUN locale-gen en_US.UTF-8
 RUN dpkg-reconfigure -f noninteractive locales
-RUN echo "$TZ" > /etc/timezone; dpkg-reconfigure -f noninteractive tzdata
+RUN echo "$TZ" | tee /etc/timezone; rm -rf /etc/localtime; ln -s /usr/share/zoneinfo/$TZ /etc/localtime; dpkg-reconfigure -f noninteractive tzdata
 
 # Setup User
 RUN useradd --home $HOME -M $USER -K UID_MIN=10000 -K GID_MIN=10000 -s /bin/bash
@@ -142,11 +142,12 @@ RUN chmod 755 $HOME/main.sh
 RUN mkdir -p /var/log/supervisor
 COPY supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
-CMD ["/usr/bin/supervisord"]
+# Details: https://github.com/docker/docker/issues/2569#issuecomment-27973910
+CMD ["/bin/bash", "-c", "env | grep _ >> /etc/environment && supervisord -n"]
 
 # -------------------------------------------------------------------------------------------------
 
 # clean apt caches
 RUN rm -rf /var/lib/apt/lists/*
 
-ENV REFRESHED_AT 2019-09-08
+ENV REFRESHED_AT 2019-12-21
