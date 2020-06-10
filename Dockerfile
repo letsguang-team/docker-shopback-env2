@@ -2,7 +2,6 @@ FROM ubuntu:xenial
 LABEL maintainer="Martin Chan <osiutino@gmail.com>"
 ENV DEEP_REFRESHED_AT 2020-06-10
 ENV RUBY_VERSION 2.4.6
-ENV PASSENGER_VERSION 6.0.5
 ENV NVM_VERSION v0.34.0
 ENV NODE_VERSION 10.16
 ENV LC_ALL en_US.UTF-8
@@ -68,7 +67,6 @@ RUN /bin/bash -l -c 'rvm rubygems current'
 
 # Install Gems
 RUN /bin/bash -l -c 'gem install bundler --no-document'
-RUN /bin/bash -l -c 'gem install passenger --version $PASSENGER_VERSION --no-document'
 
 # Install NVM + Node
 RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
